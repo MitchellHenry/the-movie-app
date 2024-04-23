@@ -1,20 +1,37 @@
 <template>
-    <h1>{{title}}</h1>
-    <Carousel v-bind="settings" :breakpoints="breakpoints" :wrap-around="true" :transition="500" :autoplay="1000000" >
-    <Slide v-for="movie in movies" :key="movie.poster_path">
+  <div class="border-top">
+    <RouterLink class="carousel_link" to="/">{{title}} &#10148;</RouterLink>
+      <Carousel v-bind="settings" :breakpoints="breakpoints" :wrap-around="true" :transition="300" :autoplay="5000" >
+      <Slide v-for="movie in movies" :key="movie.poster_path">
             <v-img
             :aspect-ratio="1"
             :src="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
+            lazy-src="../assets/MoviePlaceholder.jpg"
             height="auto"
-            class="border border-2 border-dark"
-            @click="movieClicked(movie.original_title)"
+            :alt="movie.title"
+            @click="movieClicked(movie.id)"
         ></v-img>
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular
+              color="grey-lighten-4"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </template>
     </Slide>
-
-    <template #addons>
-      <Navigation />
-    </template>
-  </Carousel>
+     <template #addons>
+      <navigation>
+        <template #next>
+          <v-img class="carousel_navigation"  src="../assets/CarouselNavigation.png" :aspect-ratio=1></v-img>
+        </template>
+        <template #prev>
+          <v-img class="carousel_navigation" src="../assets/CarouselNavigation.png" :aspect-ratio=1></v-img>
+        </template>
+      </navigation>
+      </template>
+    </Carousel>
+  </div>
 </template>
 
 <script>
@@ -66,41 +83,75 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.carousel__slide {
-    padding: 5px;
-}
-
-.v-responsive__sizer{
-    padding:0;
-}
-
-.carousel__track {
-    transform-style: preserve-3d;
-}
-
-.carousel__slide--sliding {
-    transition: 0.5s;
-}
-
-.carousel__slide {
-    opacity: 0.9;
-    transform: rotateY(-20deg) scale(0.9);
-}
-
-.carousel__slide--active ~ .carousel__slide {
-    transform: rotateY(20deg) scale(0.9);
-}
-
-.carousel__slide--active {
-    opacity: 1;
-    transform: rotateY(0) scale(1.1);
-    padding-bottom: 2%;
-}
-
-</style>
-<style>
-.v-img__img
+.v-img /deep/ .v-img__img
 {
     position: initial;
 }
+.carousel__slide /deep/ .v-img
+{
+  box-shadow: 0px 0px 5px 5px #EEE8AA;
+}
+
+.carousel{
+  position: relative;
+}
+
+.carousel /deep/ .carousel_navigation
+{
+  box-shadow: 0px 0px 5px 5px #0096FF;
+  border-radius: 40%!important;
+}
+
+.carousel /deep/ .carousel__prev
+{
+  transform: rotate(180deg);
+}
+
+.carousel /deep/ .carousel__viewport
+{
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.carousel__slide {
+  padding: 5px;
+}
+
+.carousel__slide {
+  opacity: 0.9;
+  transform: rotateY(-20deg) scale(0.9);
+}
+
+.carousel__slide--active {
+  opacity: 1;
+  transform: rotateY(-20deg) scale(1.1);
+}
+
+.carousel__slide--sliding {
+  transition: 0.5s;
+}
+
+.carousel_link
+{
+  text-decoration: none;
+  font-weight: bold;
+  position: absolute;
+  z-index: 2;
+  font-size: 1vw;
+}
+.carousel_link:hover
+{
+  color:#EEE8AA;
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 600px) {
+  .carousel_link
+  {
+    position: initial;
+    font-size: 3vw;
+    margin: 1vw;
+  }
+}
+
 </style>
