@@ -1,10 +1,10 @@
 <template>
-  <MovieCarousel :moviePromise="getMovies('popular',1 , 1,'movie')" title="Popular movies" />
-  <MovieCarousel :moviePromise="getMovies('top_rated',2 , 1,'movie')" title="Top rated movies" />
-  <MovieCarousel :moviePromise="getMovies('movie', 3, 1, 'discover', 27)" title="Horror movies" />
-  <MovieCarousel :moviePromise="getMovies('movie', 3, 1, 'discover', 53)" title="Thriller movies" />
-  <MovieCarousel :moviePromise="getMovies('movie', 3, 1, 'discover', 35)" title="Comedy movies" />
-  <MovieCarousel :moviePromise="getMovies('movie', 3, 1, 'discover', 28)" title="Action movies" />
+  <MovieCarousel :moviePromise="getMovies('movie',1 , 1,'popular')" title="Popular movies" />
+  <MovieCarousel :moviePromise="getMovies('movie',2 , 1,'top_rated')" title="Top rated movies" />
+  <MovieCarousel :moviePromise="getMovies('discover', 3, 1, 'movie', 27)" title="Horror movies" />
+  <MovieCarousel :moviePromise="getMovies('discover', 3, 1, 'movie', 53)" title="Thriller movies" />
+  <MovieCarousel :moviePromise="getMovies('discover', 3, 1, 'movie', 35)" title="Comedy movies" />
+  <MovieCarousel :moviePromise="getMovies('discover', 3, 1, 'movie', 28)" title="Action movies" />
 </template>
 
 <script>
