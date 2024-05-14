@@ -51,7 +51,6 @@ export async function searchMovies(pageStart, pages, query)
     let movies = [];
     for (let currentPage = pageStart; currentPage < (pageStart + pages); currentPage++) {
         let url = MOVIE_API.API_PATH + "search/movie?" + queryParameter + "&" + MOVIE_API.API_LANGUAGE + MOVIE_API.API_PAGE + currentPage + MOVIE_API.API_KEY;
-        console.log(url);
         let fetchMoviesData = await fetch(url)     
         let movieData = await fetchMoviesData.json();
         movies = movies.concat(movieData.results);
@@ -71,4 +70,14 @@ export async function getGenres()
     let fetchGenres = await fetch(url);     
     let genreData = await fetchGenres.json();
     return genreData.genres;
+}
+
+
+//Get details on specific Movie
+export async function getMovieDetail(id)
+{
+    let url = MOVIE_API.API_PATH + "movie/" + id + "?" + MOVIE_API.API_LANGUAGE + MOVIE_API.API_KEY;
+    let getDetails = await fetch(url);     
+    let MovieData = await getDetails.json();
+    return MovieData;
 }

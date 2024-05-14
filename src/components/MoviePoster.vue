@@ -5,7 +5,7 @@
         lazy-src="../assets/MoviePlaceholder.jpg"
         height="auto"
         :alt="movie.title"
-        @click="movieClicked(movie.id)"
+        @click="movieClicked()"
         ></v-img>
 </template>
 
@@ -21,9 +21,9 @@ export default {
     MOVIE_API: MOVIE_API
   }),
   methods: {
-    movieClicked(title)
+    movieClicked()
     {
-        alert('You clicked ' + title);
+      this.$router.push({path: '/movie/' + this.movie.id});
     }
   }
 }
@@ -34,4 +34,9 @@ export default {
   box-shadow: 0px 0px 5px 5px #EEE8AA;
 }
 
+.v-img__img
+{
+  position: initial;
+  
+}
 </style>

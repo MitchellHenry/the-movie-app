@@ -29,6 +29,7 @@
       <v-navigation-drawer
       v-model="drawer"
       :location="$vuetify.display.mobile ? 'bottom' : 'right'"
+      class="border-start border-info"
       temporary
       >    
         <v-list>
@@ -76,8 +77,7 @@ export default {
   {
     movieSearch()
     {
-      this.$router.push({path: '/search', query : { searchParameter: this.movieSearchText, timestamp: new Date().getTime()}});
-
+      this.$router.push({path: '/search', query : { searchParameter: this.movieSearchText,timestamp: new Date().getTime()}});
     }
   }
 }
@@ -109,7 +109,11 @@ export default {
 :deep(.v-navigation-drawer)
 {
   background-color:  inherit;
-  margin-top:8%;
+}
+
+:deep(.v-navigation-drawer .v-list)
+{
+  margin-top: 0%;
 }
 
 :deep(.v-btn--icon)
@@ -120,6 +124,13 @@ export default {
 p
 {
   font-size:1vw;;
+}
+
+@media only screen and (min-width: 1268px) {
+  :deep(.v-navigation-drawer .v-list)
+  {
+    margin-top: 50%;
+  }
 }
 
 @media only screen and (max-width: 600px) {

@@ -16,6 +16,9 @@
       <v-progress-circular color="blue-lighten-1" model-value="20" :size="128" :width="12" indeterminate></v-progress-circular>
       <h1 class="text-primary" >Searching</h1>
     </div>
+    <div class="d-flex flex-column align-center" v-if="filterMovies().length == 0">
+      <h1 class="text-primary" >No Movies found be more specific</h1>
+    </div>
     <div class="grid-container">
       <MoviePoster
         class="m-2"
@@ -59,11 +62,11 @@ export default defineComponent({
     let moviePromise;
     if(this.$route.query.searchParameter == "")
     {
-      moviePromise = getMovies('discover', 1, 100, 'movie', this.selectedGenre)
+      moviePromise = getMovies('discover', 1, 10, 'movie', this.selectedGenre)
     }
     else
     {
-      moviePromise = searchMovies(1, 100, this.$route.query.searchParameter)
+      moviePromise = searchMovies(1, 10, this.$route.query.searchParameter)
     }
     moviePromise.then(result => { this.movies = result; this.currentPage = 1; this.initialized = true;}) 
   },
@@ -79,11 +82,11 @@ export default defineComponent({
       let moviePromise;
       if(this.$route.query.searchParameter == "")
       {
-        moviePromise = getMovies('discover', 1, 100, 'movie', this.selectedGenre)
+        moviePromise = getMovies('discover', 1, 10, 'movie', this.selectedGenre)
       }
       else
       {
-        moviePromise = searchMovies(1, 100, this.$route.query.searchParameter)
+        moviePromise = searchMovies(1, 10, this.$route.query.searchParameter)
       }
      //wait for promise
      moviePromise.then(result => { this.movies = result; this.currentPage = 1; this.initialized = true;})
@@ -133,7 +136,22 @@ export default defineComponent({
       let filteredMovies = this.movies;
         if(this.selectedGenre !== undefined && this.selectedGenre !== null) 
         {   //Filter by Genre
-          filteredMovies = filteredMovies.filter(m => m.genre_ids.includes(this.selectedGenre));
+          try
+          {
+
+          
+          filteredMovies = filteredMovies.filter(m => {
+            if (Object.prototype.hasOwnProperty.call(m, 'genre_ids') && Array.isArray(m.genre_ids)) {
+              return m.genre_ids.includes(this.selectedGenre);
+            } else {
+              return false;
+            }
+          });
+        }
+        catch(err)
+        {
+          console.log(err)
+        }
         }
       return filteredMovies;
     },
