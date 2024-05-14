@@ -6,6 +6,8 @@ export const MOVIE_API = {
         API_PAGE: "&page=",
         API_LOGO_PATH: "https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
     }
+
+//Get Movies by specific type ... Trending etc
 export async function getMovies(searchType, pageStart, pages, type, genreID)
 {
     let genreParameter = "";
@@ -14,7 +16,7 @@ export async function getMovies(searchType, pageStart, pages, type, genreID)
     {
         typeParameter = "/" + type;
     }
-    if (genreID !== undefined)
+    if (genreID !== null && genreID !== undefined)
     {
         genreParameter = "&with_genres=" + genreID.toString();
     }
@@ -35,14 +37,10 @@ export async function getMovies(searchType, pageStart, pages, type, genreID)
     return movies
 }
 
-export async function searchMovies(pageStart, pages, genreID, query)
+//Get Movie by search query parameter
+export async function searchMovies(pageStart, pages, query)
 {
-    let genreParameter = "";
     let queryParameter = "";
-    if (genreID !== undefined)
-    {
-        genreParameter = "&with_genres=" + genreID.toString();
-    }
     queryParameter="query="
     let queryArray = query.split(/(\s+)/);
     (queryArray).forEach(string => {
@@ -52,11 +50,10 @@ export async function searchMovies(pageStart, pages, genreID, query)
     //let maxPages = Number.MAX_VALUE;
     let movies = [];
     for (let currentPage = pageStart; currentPage < (pageStart + pages); currentPage++) {
-        let url = MOVIE_API.API_PATH + "search/movie?" + queryParameter + "&" + MOVIE_API.API_LANGUAGE + genreParameter + MOVIE_API.API_PAGE + currentPage + MOVIE_API.API_KEY;
+        let url = MOVIE_API.API_PATH + "search/movie?" + queryParameter + "&" + MOVIE_API.API_LANGUAGE + MOVIE_API.API_PAGE + currentPage + MOVIE_API.API_KEY;
         console.log(url);
         let fetchMoviesData = await fetch(url)     
         let movieData = await fetchMoviesData.json();
-        
         movies = movies.concat(movieData.results);
         // if(pages > parseInt(movieData.total_pages))
         // {
@@ -65,4 +62,13 @@ export async function searchMovies(pageStart, pages, genreID, query)
         // }
     }
     return movies
+}
+
+//Get all filter by Generes
+export async function getGenres()
+{
+    let url = MOVIE_API.API_PATH + "genre/movie/list?" + MOVIE_API.API_LANGUAGE + MOVIE_API.API_KEY;
+    let fetchGenres = await fetch(url);     
+    let genreData = await fetchGenres.json();
+    return genreData.genres;
 }

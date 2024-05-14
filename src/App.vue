@@ -76,7 +76,7 @@ export default {
   {
     movieSearch()
     {
-      this.$router.push({path: '/search', query : { searchParameter: this.movieSearchText}});
+      this.$router.push({path: '/search', query : { searchParameter: this.movieSearchText, timestamp: new Date().getTime()}});
 
     }
   }
