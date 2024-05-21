@@ -48,9 +48,10 @@
         if(this.initialized)
         {
           let genres = "";
-          console.dir(this.movie.genres)
-          this.movie.genres.forEach((genre) => {genres += genre.name + ", "})
-          genres = genres.substring(0, genres.length - 2);
+          if (Object.prototype.hasOwnProperty.call(this.movie, 'genre_ids') && Array.isArray(this.movie.genre_ids)) {
+            this.movie.genres.forEach((genre) => {genres += genre.name + ", "})
+            genres = genres.substring(0, genres.length - 2);
+          }
           return genres
         }
         return "";

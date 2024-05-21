@@ -5,9 +5,12 @@ import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import 'bootstrap/dist/css/bootstrap.css'
 
+
 loadFonts()
 
-createApp(App)
-  .use(router)
-  .use(vuetify)
-  .mount('#app')
+
+const app = createApp(App)
+.use(router)
+.use(vuetify)
+app.config.globalProperties.$User = {};
+app.mount('#app')

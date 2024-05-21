@@ -9,7 +9,7 @@
          src="./assets/TheMovieAppLogo.png"
          :aspect-ratio="1"
          class="border-end pointer"
-         @click="this.$router.push({path: '/'})"
+         @click="this.$router.push({path: '/'});console.log(this.$root.$User)"
          alt="The movie app logo">
          </v-img>
          <v-img
@@ -39,14 +39,17 @@
           <v-list-item>
             <v-btn color="grey-darken-2">Vote now!</v-btn>
           </v-list-item>  
-          <v-list-item v-if="!signedIn">
-            <v-btn color="grey-darken-2">Sign In</v-btn>
+          <v-list-item v-if="!Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')">
+            <v-btn color="grey-darken-2" @click="this.$router.push({path: '/account/login'})">Sign In</v-btn>
           </v-list-item>  
-          <v-list-item v-if="signedIn">
-            <v-btn append-icon="mdi-account-circle" color="grey-darken-2">Account</v-btn>
+          <v-list-item v-if="!Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')">
+            <v-btn color="grey-darken-2" @click="this.$router.push({path: '/account/register'})">Register</v-btn>
           </v-list-item>  
-          <v-list-item v-if="signedIn">
-            <v-btn append-icon="mdi-account-circle" color="grey-darken-2">Logout</v-btn>
+          <v-list-item v-if="Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')">
+            <v-btn append-icon="mdi-account-circle"  @click="this.$router.push({path: '/account/profile'})" color="grey-darken-2">Account</v-btn>
+          </v-list-item>  
+          <v-list-item v-if="Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')">
+            <v-btn append-icon="mdi-account-circle"  @click="this.$root.$User = {};" color="grey-darken-2">Logout</v-btn>
           </v-list-item>  
         </v-list>   
       </v-navigation-drawer>
@@ -63,14 +66,12 @@
 
 <script>
 import { MOVIE_API } from './MovieAPI';
-
 export default {
   name: 'App',
 
   data: () => ({
     MOVIE_API: MOVIE_API,
     movieSearchText: '',
-    signedIn: false,
     drawer: false
   }),
   methods: 
@@ -87,6 +88,16 @@ export default {
 {
   cursor: pointer;
 }
+
+:root {
+  --electric-blue: #0096FF; 
+}
+
+.colorElectricBlue
+{
+  color: var(--electric-blue);
+}
+
 </style>
 <style scoped>
 

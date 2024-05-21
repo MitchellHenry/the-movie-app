@@ -45,8 +45,7 @@
 <script>
 import { defineComponent } from 'vue';
 
-import { getMovies, searchMovies, getGenres } from '../MovieAPI.js'
-import { MOVIE_API } from '@/MovieAPI' 
+import { getMovies, searchMovies, getGenres, MOVIE_API } from '../MovieAPI.js'
 
 // Components
 import MoviePoster from '../components/MoviePoster.vue';
@@ -138,20 +137,18 @@ export default defineComponent({
         {   //Filter by Genre
           try
           {
-
-          
-          filteredMovies = filteredMovies.filter(m => {
-            if (Object.prototype.hasOwnProperty.call(m, 'genre_ids') && Array.isArray(m.genre_ids)) {
-              return m.genre_ids.includes(this.selectedGenre);
-            } else {
-              return false;
-            }
+            filteredMovies = filteredMovies.filter(m => {
+              if (Object.prototype.hasOwnProperty.call(m, 'genre_ids') && Array.isArray(m.genre_ids)) {
+                return m.genre_ids.includes(this.selectedGenre);
+              } else {
+                return false;
+              }
           });
-        }
-        catch(err)
-        {
-          console.log(err)
-        }
+          }
+          catch(err)
+          {
+            console.log(err)
+          }
         }
       return filteredMovies;
     },
@@ -176,11 +173,6 @@ export default defineComponent({
 {
   background-color: gray;
   
-}
-
-.carousel__pagination
-{
-  background-color: aqua;
 }
 
 .grid-container {

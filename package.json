@@ -18,7 +18,8 @@
     "vue-router": "^4.0.3",
     "vue3-carousel": "^0.3.3",
     "vuejs-paginate-next": "^1.0.2",
-    "vuetify": "^3.0.0-beta.0",
+    "vuetify": "^3.6.6",
+    "vuex": "^4.1.0",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {

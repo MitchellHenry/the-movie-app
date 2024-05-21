@@ -81,7 +81,7 @@ export default defineComponent({
 
 :deep(.carousel .carousel_navigation)
 {
-  box-shadow: 0px 0px 5px 5px #0096FF;
+  box-shadow: 0px 0px 5px 5px var(--electric-blue);
   border-radius: 40%!important;
 }
 
@@ -124,7 +124,7 @@ export default defineComponent({
 }
 .carousel_link:hover
 {
-  color:#EEE8AA;
+  color:#00A1FF;
   text-decoration: underline;
 }
 
