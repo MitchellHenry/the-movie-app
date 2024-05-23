@@ -6,6 +6,7 @@ import AccountView from '@/views/AccountView.vue'
 import LoginComponent from '@/components/LoginForm.vue'
 import RegisterComponent from '@/components/RegisterForm.vue'
 import ProfileComponent from '@/components/ProfileDetails.vue'
+import PollsView from '@/views/PollsView.vue'
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     path: '/movie/:id',
     name: 'movie detail',
     component: MovieDetailView
+  },
+  {
+    path: '/vote',
+    name: 'movie voting',
+    component: PollsView
   },
   {
     path: '/account',

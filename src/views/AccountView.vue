@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-column justify-content-between ">
+    <div class="d-flex flex-column">
         <RouterView></RouterView>
     </div>
   </template>

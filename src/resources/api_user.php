@@ -5,7 +5,9 @@
 // Use this API for demonstration purposes only
 
 require("settings.php");
-header('Access-Control-Allow-Origin: http://localhost:8081');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 // get the HTTP method, path and body of the request
 $method = $_SERVER['REQUEST_METHOD'];
 $request = explode('/', trim($_SERVER['PATH_INFO'],'/'));

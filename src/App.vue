@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <div class="h-100 d-flex flex-column justify-content-between">
+      <div>
       <!-- Header -->
       <div class="row header-row sticky-top border-bottom">
         <div class="col-3 col-md-1 d-flex pe-0">
@@ -9,7 +9,7 @@
          src="./assets/TheMovieAppLogo.png"
          :aspect-ratio="1"
          class="border-end pointer"
-         @click="this.$router.push({path: '/'});console.log(this.$root.$User)"
+         @click="this.$router.push({path: '/'});"
          alt="The movie app logo">
          </v-img>
          <v-img
@@ -23,42 +23,49 @@
           <v-btn icon="mdi-magnify" class="mt-2" color="grey-darken-2" @click="movieSearch"></v-btn>
         </div>
         <div class="col-1 d-flex justify-content-end align-items-md-center pe-4">
-          <v-app-bar-nav-icon class="nav" :ripple="false" variant="plain" color="grey-darken-2" @click.stop="drawer = !drawer" x-large></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon class="nav" :ripple="false" variant="plain" color="var(--electric-blue)" @click.stop="drawer = !drawer" x-large></v-app-bar-nav-icon>
         </div>
       </div>
       <v-navigation-drawer
       v-model="drawer"
       :location="$vuetify.display.mobile ? 'bottom' : 'right'"
-      class="border-start border-info"
+      class="border-electric"
       temporary
       >    
         <v-list>
+          <div>
           <v-list-item>
-            <v-btn color="grey-darken-2" @click="this.$router.push({path: '/'})">Home</v-btn>
+            <v-btn append-icon="mdi-home" color="var(--electric-blue)" class="text-white" @click="this.$router.push({path: '/'});">Home</v-btn>
           </v-list-item>  
           <v-list-item>
-            <v-btn color="grey-darken-2">Vote now!</v-btn>
+            <v-btn color="var(--electric-blue)" class="text-white" @click="this.$router.push({path: '/vote'});">Vote now!</v-btn>
+          </v-list-item>  
+          <v-list-item v-if="authorised()">
+            <v-btn  class="text-white" color="var(--electric-blue)">Manage polls</v-btn>
+          </v-list-item>
+        </div>
+        <div>
+          <v-list-item v-if="!Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')">
+            <v-btn color="var(--electric-blue)" class="text-white" @click="this.$router.push({path: '/account/login'})">Sign In</v-btn>
           </v-list-item>  
           <v-list-item v-if="!Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')">
-            <v-btn color="grey-darken-2" @click="this.$router.push({path: '/account/login'})">Sign In</v-btn>
-          </v-list-item>  
-          <v-list-item v-if="!Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')">
-            <v-btn color="grey-darken-2" @click="this.$router.push({path: '/account/register'})">Register</v-btn>
+            <v-btn color="var(--electric-blue)" class="text-white" @click="this.$router.push({path: '/account/register'})">Register</v-btn>
           </v-list-item>  
           <v-list-item v-if="Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')">
-            <v-btn append-icon="mdi-account-circle"  @click="this.$router.push({path: '/account/profile'})" color="grey-darken-2">Account</v-btn>
+            <v-btn append-icon="mdi-account-circle" class="text-white"  @click="this.$router.push({path: '/account/profile'})" color="var(--electric-blue)">Account</v-btn>
           </v-list-item>  
           <v-list-item v-if="Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')">
-            <v-btn append-icon="mdi-account-circle"  @click="this.$root.$User = {};" color="grey-darken-2">Logout</v-btn>
+            <v-btn append-icon="mdi-logout" class="text-white"  @click="this.$root.$User = {}; this.$router.push({ path: '/' })" color="var(--electric-blue)">Logout</v-btn>
           </v-list-item>  
+        </div>
         </v-list>   
       </v-navigation-drawer>
       <router-view/>
       <!-- Footer -->
-      <div class="d-flex justify-content-between pt-1 border-top">
-        <p class="ms-3 text-light text-decoration-underline">The-Movie-App Copyright © 2024</p>
-        <p class="me-3 pt-1 text-info">This website uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.</p>
-      </div>
+      <v-footer app="true" absolute="true"  color="black" class="d-flex justify-content-between pt-1 w-100 border-top">
+        <p class="ms-3 colorElectricBlue"><strong>The-Movie-App</strong> Copyright © {{ new Date().getFullYear() }}</p>
+        <p class="me-3 pt-1 colorElectricBlue">This website uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.</p>
+      </v-footer>
     </div>
     </v-main>
   </v-app>
@@ -79,11 +86,28 @@ export default {
     movieSearch()
     {
       this.$router.push({path: '/search', query : { searchParameter: this.movieSearchText,timestamp: new Date().getTime()}});
+    },
+    authorised()
+    {
+      if(Object.prototype.hasOwnProperty.call(this.$root.$User, 'Admin'))
+      {
+        return (this.$root.$User.Admin == "1");
+      }
+      return false; 
     }
   }
 }
 </script>
 <style>
+.glow-border {
+  box-shadow: 0px 0px 5px 5px var(--electric-blue);
+}
+
+.border-electric
+{
+  border-color: var(--electric-blue);
+}
+
 .pointer
 {
   cursor: pointer;
@@ -100,6 +124,8 @@ export default {
 
 </style>
 <style scoped>
+
+
 
 *
 {

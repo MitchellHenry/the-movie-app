@@ -1,6 +1,6 @@
 <template>
   <div class="border-bottom">
-    <RouterLink class="carousel_link" to="/">{{title}} &#10148;</RouterLink>
+    <h2 class="carousel_title" to="/">{{title}}</h2>
       <Carousel v-bind="settings" :breakpoints="breakpoints" :wrap-around="true" :transition="300" :autoplay="5000" >
       <Slide v-for="movie in movies" :key="movie.id">
         <MoviePoster :movie="movie"></MoviePoster>
@@ -23,7 +23,6 @@
 import { defineComponent } from 'vue'
 
 import { Carousel, Navigation, Slide } from 'vue3-carousel'
-import { MOVIE_API } from '@/MovieAPI' 
 
 // Components
 import MoviePoster from './MoviePoster.vue';
@@ -45,7 +44,6 @@ export default defineComponent({
     MoviePoster
   },
   data: () => ({
-    MOVIE_API: MOVIE_API,
     movies: {},
     // carousel settings
     settings: {
@@ -55,7 +53,7 @@ export default defineComponent({
     // any settings not specified will fallback to the carousel settings
     breakpoints: {
       // 700px and up
-      350: {
+      700: {
         itemsToShow: 3.5
       },
       // 1024 and up
@@ -77,6 +75,12 @@ export default defineComponent({
 
 .carousel{
   position: relative;
+}
+
+.carousel_title
+{
+  color: var(--electric-blue);
+  margin:0;
 }
 
 :deep(.carousel .carousel_navigation)
@@ -121,11 +125,6 @@ export default defineComponent({
   position: absolute;
   z-index: 2;
   font-size: 1vw;
-}
-.carousel_link:hover
-{
-  color:#00A1FF;
-  text-decoration: underline;
 }
 
 @media only screen and (max-width: 600px) {
