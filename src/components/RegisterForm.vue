@@ -32,7 +32,7 @@
             </div>
           </div>
           <v-date-input v-model="this.form.dateOfBirth" :max="new Date()" :rules="dateRules" prepend-icon=""
-            bg-color="grey-darken-2" required label="Click to enter Date of birth"></v-date-input>
+            bg-color="grey-darken-2" required readonly label="Click to enter Date of birth"></v-date-input>
 
           <v-text-field v-model="form.email" type="email" required :rules="emailRules" label="Email"
             bg-color="grey-darken-2" class="mb-2 mt-2"></v-text-field>
@@ -43,7 +43,7 @@
         <P class="text-primary">{{ errorMessage }}</P>
       </div>
       <div class="d-flex align-items-center mt-4 mb-5">
-        <h4 class="colorElectricBlue me-3 text-white">Already have an account?</h4>
+        <h4 class="colorElectricBlue me-3">Already have an account?</h4>
         <v-btn color="var(--electric-blue)" class="text-white"
           @click="this.$router.push({ path: '/account/login' })">Sign in</v-btn>
       </div>
@@ -59,12 +59,13 @@ import { GetUser, PostRegister } from '../SiteAPI.js'
 
 export default defineComponent({
   name: 'RegisterForm',
-  beforeCreate() { },
-  components: {},
-  computed: {},
   methods:
   {
     tryRegister: function () {
+      if(!this.form.valid)
+      {
+        return;
+      }
       let uniqueUsername = true;
       GetUser(this.form.username).then(data => {
         if (data != null) {
@@ -77,6 +78,8 @@ export default defineComponent({
         {
           Username: this.form.username,
           Password: this.form.password,
+          Firstname: this.form.firstname,
+          Lastname: this.form.lastname,
           Admin: false,
           DOB: this.form.dateOfBirth.toISOString().slice(0, 10),
           Email: this.form.email
@@ -90,6 +93,26 @@ export default defineComponent({
       }
     }
   },
+  watch: {
+    'form.username'(newValue) {
+      this.form.valid = this.usernameRules.every(rule => rule(newValue));
+    },
+    'form.password'(newValue) {
+      this.form.valid = this.passwordRules.every(rule => rule(newValue));
+    },
+    'form.firstname'(newValue) {
+      this.form.valid = this.firstNameRules.every(rule => rule(newValue));
+    },
+    'form.lastname'(newValue) {
+      this.form.valid = this.LastNameRules.every(rule => rule(newValue));
+    },
+    'form.dateOfBirth'(newValue) {
+      this.form.valid = this.dateRules.every(rule => rule(newValue));
+    },
+    'form.email'(newValue) {
+      this.form.valid = this.emailRules.every(rule => rule(newValue));
+    }
+  },
   data: () => ({
     form: {
       username: '',
@@ -97,7 +120,8 @@ export default defineComponent({
       firstname: '',
       lastname: '',
       dateOfBirth: null,
-      email: ''
+      email: '',
+      valid: false
     },
     LastNameRules: [
       v => !!v || 'Last name required',

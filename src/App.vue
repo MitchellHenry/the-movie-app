@@ -62,7 +62,7 @@
       </v-navigation-drawer>
       <router-view/>
       <!-- Footer -->
-      <v-footer app="true" absolute="true"  color="black" class="d-flex justify-content-between pt-1 w-100 border-top">
+      <v-footer :app="true" :absolute="true"  color="black" class="d-flex justify-content-between pt-1 w-100 border-top">
         <p class="ms-3 colorElectricBlue"><strong>The-Movie-App</strong> Copyright © {{ new Date().getFullYear() }}</p>
         <p class="me-3 pt-1 colorElectricBlue">This website uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.</p>
       </v-footer>

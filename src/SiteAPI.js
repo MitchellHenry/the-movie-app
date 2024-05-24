@@ -4,6 +4,7 @@ export const SITE_API =
    // PATH: "@/resources/",
     PATH: "http://192.168.0.183:8080/6.2%20D%20HD/the-movie-app/src/resources/",
     USER_PATH: "api_user.php/",
+    LIKE_MOVIES_PATH: "api_liked_movies.php/"
 } 
 
 //User API Methods
@@ -25,3 +26,41 @@ export async function PostRegister(newUser)
         };
     return fetch(url, requestOptions).then(response => { return response.json(); });
 }
+
+export async function PostLikeDislikeMovie(newRating)
+{
+    let url = SITE_API.PATH + SITE_API.LIKE_MOVIES_PATH;
+    const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newRating)
+        };
+    return await DeletePastLikeDislikeMovie(newRating.UserID, newRating.MovieID).then( () =>
+    { return fetch(url, requestOptions).then(response => { return response.json(); }) });
+}
+
+async function DeletePastLikeDislikeMovie(userid, movieid)
+{
+    let url = SITE_API.PATH + SITE_API.LIKE_MOVIES_PATH + userid + "/" + movieid;
+    const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    UserID: userid,
+                    MovieID: movieid
+                })
+        };
+    return await fetch(url, requestOptions).then(response => { return response.json(); });
+}
+
+export async function GetLikeDislikedMovies(userid)
+{
+    let url = SITE_API.PATH + SITE_API.LIKE_MOVIES_PATH + "UserID/" + userid;
+    return fetch(url).then(response => { return response.json(); });
+}
+
