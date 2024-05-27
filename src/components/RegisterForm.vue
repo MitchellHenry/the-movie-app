@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column align-items-center w-100">
     <div class="col-10">
-      <h1 class="colorElectricBlue mb-3">Register!</h1>
+      <h1 class="text-electric-blue mb-3">Register!</h1>
       <div class="p-3 border border-info glow-border">
         <v-form fast-fail @submit.prevent>
 
@@ -43,7 +43,7 @@
         <P class="text-primary">{{ errorMessage }}</P>
       </div>
       <div class="d-flex align-items-center mt-4 mb-5">
-        <h4 class="colorElectricBlue me-3">Already have an account?</h4>
+        <h4 class="text-electric-blue me-3">Already have an account?</h4>
         <v-btn color="var(--electric-blue)" class="text-white"
           @click="this.$router.push({ path: '/account/login' })">Sign in</v-btn>
       </div>

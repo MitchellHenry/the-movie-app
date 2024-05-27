@@ -15,7 +15,6 @@
     "popper.js": "^1.16.1",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
-    "vue-poll": "^0.1.8",
     "vue-router": "^4.0.3",
     "vue3-carousel": "^0.3.3",
     "vuejs-paginate-next": "^1.0.2",

@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-main>
-      <div>
       <!-- Header -->
       <div class="row header-row sticky-top border-bottom">
         <div class="col-3 col-md-1 d-flex pe-0">
@@ -60,13 +59,12 @@
         </div>
         </v-list>   
       </v-navigation-drawer>
-      <router-view/>
+      <router-view />
       <!-- Footer -->
-      <v-footer :app="true" :absolute="true"  color="black" class="d-flex justify-content-between pt-1 w-100 border-top">
-        <p class="ms-3 colorElectricBlue"><strong>The-Movie-App</strong> Copyright © {{ new Date().getFullYear() }}</p>
-        <p class="me-3 pt-1 colorElectricBlue">This website uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.</p>
+      <v-footer :app="true" :absolute="true"  color="black" class="d-flex justify-content-between pt-1 w-100 border-top p-0">
+        <p class="ms-3 w-50 text-electric-blue"><strong>The-Movie-App</strong> Copyright © {{ new Date().getFullYear() }}</p>
+        <p class="me-3 w-50 text-electric-blue">This website uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.</p>
       </v-footer>
-    </div>
     </v-main>
   </v-app>
 </template>
@@ -117,7 +115,7 @@ export default {
   --electric-blue: #0096FF; 
 }
 
-.colorElectricBlue
+.text-electric-blue
 {
   color: var(--electric-blue);
 }

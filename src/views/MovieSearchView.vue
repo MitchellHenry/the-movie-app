@@ -12,12 +12,12 @@
       variant="outlined"
     ></v-select>
     </div>
-    <div class="d-flex flex-column align-center" v-if="!initialized">
-      <v-progress-circular color="blue-lighten-1" model-value="20" :size="128" :width="12" indeterminate></v-progress-circular>
-      <h1 class="text-primary" >Searching</h1>
+    <div class="d-flex flex-column h-50 align-center pb-5 justify-content-center" v-if="!initialized">
+      <v-progress-circular color="blue-lighten-1 pb-3" model-value="20" :size="128" :width="12" indeterminate></v-progress-circular>
+      <h1 class="text-electric-blue" >Searching</h1>
     </div>
     <div class="d-flex flex-column align-center" v-if="filterMovies().length == 0">
-      <h1 class="text-primary" >No Movies found be more specific</h1>
+      <h1 class="text-electric-blue" >No Movies found be more specific</h1>
     </div>
     <div class="grid-container">
       <MoviePoster

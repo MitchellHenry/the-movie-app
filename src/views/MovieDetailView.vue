@@ -1,33 +1,37 @@
 <template>
-    <div class="d-flex flex-column justify-content-between mt-1 mb-20">
+    <div class="d-flex flex-column justify-content-between mt-1 mb-20" v-if="this.initialized">
       <div class="row">
         <div class="col-12 col-md-4 col-xl-3 ms-3 text-center ms-md-5 h-75">
-          <h2 class="text-primary">{{movie.original_title}}</h2>
-          <MoviePoster v-if="initialized" class="mb-2 mt-3 ms-5 w-75" :movie="movie"></MoviePoster>
+          <h2 class="text-electric-blue">{{movie.original_title}}</h2>
+          <MoviePoster class="mb-2 mt-3 ms-5 w-75" :movie="movie"></MoviePoster>
           <div class="d-flex justify-content-center mb-3 mt-3">
             <v-btn append-icon="mdi-thumb-up-outline" @click="LikeDislikedMovie(true)" :variant="LikedVariant"  color="#2ECC71" class="me-2 w-30 border border-success text-white">Like</v-btn>
             <v-btn append-icon="mdi-thumb-down-outline" @click="LikeDislikedMovie(false)" :variant="disLikedVariant" color="#E74C3C"  class="w-30 border border-danger text-white">Dislike</v-btn>
           </div>
-          <h3 class="text-primary m-0">{{movie.tagline}}</h3>
+          <h3 class="text-electric-blue m-0">{{movie.tagline}}</h3>
           <div v-if="this.$vuetify.display.smAndDown">
-            <p class="text-primary"><b>Genres:</b> {{getGenreList}}</p>
-            <p class="text-primary"><b>Runtime:</b> {{movie.runtime}} minutes</p>
-            <p class="text-primary"><b>Release Date:</b> {{movie.release_date}}</p>
-            <p class="text-primary"><b>Budget:</b> {{formattedBudget}}</p>
-            <p class="text-primary"><b>Revenue:</b> {{formattedRevenue}}</p>
+            <p class="text-electric-blue"><b>Genres:</b> {{getGenreList}}</p>
+            <p class="text-electric-blue"><b>Runtime:</b> {{movie.runtime}} minutes</p>
+            <p class="text-electric-blue"><b>Release Date:</b> {{movie.release_date}}</p>
+            <p class="text-electric-blue"><b>Budget:</b> {{formattedBudget}}</p>
+            <p class="text-electric-blue"><b>Revenue:</b> {{formattedRevenue}}</p>
           </div>
         </div>
         <div class="col-11 col-md-3 ms-2">
-          <p class="text-primary"><b>Overview:</b><br> {{movie.overview}}</p>
+          <p class="text-electric-blue"><b>Overview:</b><br> {{movie.overview}}</p>
           <div v-if="!this.$vuetify.display.smAndDown">
-            <p class="text-primary"><b>Genres:</b> {{getGenreList}}</p>
-            <p class="text-primary"><b>Runtime:</b> {{movie.runtime}} minutes</p>
-            <p class="text-primary"><b>Release Date:</b> {{movie.release_date}}</p>
-            <p class="text-primary"><b>Budget:</b> {{formattedBudget}} </p>
-            <p class="text-primary"><b>Revenue:</b> {{formattedRevenue}}</p>
+            <p class="text-electric-blue"><b>Genres:</b> {{getGenreList}}</p>
+            <p class="text-electric-blue"><b>Runtime:</b> {{movie.runtime}} minutes</p>
+            <p class="text-electric-blue"><b>Release Date:</b> {{movie.release_date}}</p>
+            <p class="text-electric-blue"><b>Budget:</b> {{formattedBudget}} </p>
+            <p class="text-electric-blue"><b>Revenue:</b> {{formattedRevenue}}</p>
           </div>
         </div>  
       </div>
+    </div>
+    <div class="d-flex flex-column h-100 pb-5 justify-content-center align-center" v-if="!initialized">
+      <v-progress-circular color="blue-lighten-1 pb-3" model-value="20" :size="128" :width="12" indeterminate></v-progress-circular>
+      <h1 class="text-electric-blue" >Retrieving movie details. Please wait!</h1>
     </div>
   </template>
   
@@ -44,31 +48,32 @@
     name: 'MovieSearchView',
     async beforeCreate() {
       let moviePromise = getMovieDetail(this.$route.params.id);
-      await moviePromise.then(result => { this.movie = result; this.initialized = true;});
+      await moviePromise.then(result => { this.movie = result;});
       if(Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username'))
       {
-        this.initialized = false;
         let MoviesLikedPromise = GetLikeDislikedMovies(this.$root.$User.UserID); 
         MoviesLikedPromise.then(result => {
-          if(Array.isArray(result))
+          if(result.length > 0)
           {
             let currentMovie = result.filter(lm => lm.MovieID == this.movie.id)[0];
-            if(Object.prototype.hasOwnProperty.call(currentMovie, 'Rated'))
+            if(currentMovie != null)
             {
-              console.log(currentMovie.Rated)
-              if(currentMovie.Rated == "1")
+              if(Object.prototype.hasOwnProperty.call(currentMovie, 'Rated'))
               {
-                this.disLikedVariant = "text";
-              }
-              else
-              {
-                this.LikedVariant = "text";
+                if(currentMovie.Rated == "1")
+                {
+                  this.disLikedVariant = "text";
+                }
+                else
+                {
+                  this.LikedVariant = "text";
+                }
               }
             }
           }
-          this.initialized = true;
       })
       }
+     this.initialized = true;
     },
     components: {
       MoviePoster
@@ -93,9 +98,9 @@
     },
     data: () => ({
       movie: {},
-      initialized: false,
       LikedVariant: "flat",
-      disLikedVariant: "flat"
+      disLikedVariant: "flat",
+      initialized: false
     }),
     methods: 
     {
@@ -137,8 +142,16 @@
     position: initial;
   }
 
+  @media only screen and (max-width: 600px) {
+    h1
+    {
+      font-size:5vw;
+    }
+  }
+
   .w-30
   {
     width:30%;
   }
+  
 </style>

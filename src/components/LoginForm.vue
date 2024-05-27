@@ -2,7 +2,7 @@
   <div class="d-flex flex-column align-items-center w-100">
     <div class="col-10">
       <div class="mb-3 mt-5 mt-md-0">
-        <h1 class="colorElectricBlue">Login!</h1>
+        <h1 class="text-electric-blue">Login!</h1>
       </div>
       <div class="p-3 border border-info glow-border">
         <v-form fast-fail @submit.prevent>
@@ -14,7 +14,7 @@
           <v-btn class="mt-2 text-white" type="submit" @click="tryLogin" color="var(--electric-blue)"
             block>Login</v-btn>
         </v-form>
-        <P class="colorElectricBlue">{{ errorMessage }}</P>
+        <P class="text-electric-blue">{{ errorMessage }}</P>
       </div>
       <div class="mb-5 pb-5">
         <v-btn class="mt-5 mb-5 text-white" @click="this.$router.push({path: '/account/register'})" type="btn" color="var(--electric-blue)" block>Register Here!</v-btn>

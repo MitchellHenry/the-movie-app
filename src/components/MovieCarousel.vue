@@ -1,8 +1,8 @@
 <template>
   <div class="border-bottom">
-    <h2 class="carousel_title" to="/">{{title}}</h2>
+    <h2 class="text-electric-blue m-0" to="/">{{title}}</h2>
       <Carousel v-bind="settings" :breakpoints="breakpoints" :wrap-around="true" :transition="300" :autoplay="5000" >
-      <Slide v-for="movie in movies" :key="movie.id">
+      <Slide class="pt-2 mt-4 pb-2 mb-4 pt-md-0 pb-md-0 mb-md-0 mt-md-0" v-for="movie in movies" :key="movie.id">
         <MoviePoster :movie="movie"></MoviePoster>
     </Slide>
      <template #addons>
@@ -47,15 +47,11 @@ export default defineComponent({
     movies: {},
     // carousel settings
     settings: {
-      itemsToShow: 1
+      itemsToShow: 2
     },
     // breakpoints are mobile first
     // any settings not specified will fallback to the carousel settings
     breakpoints: {
-      // 700px and up
-      700: {
-        itemsToShow: 3.5
-      },
       // 1024 and up
       1024: {
         itemsToShow: 8
@@ -71,16 +67,11 @@ export default defineComponent({
 :deep(.v-img .v-img__img)
 {
     position: initial;
+    cursor: pointer;
 }
 
 .carousel{
   position: relative;
-}
-
-.carousel_title
-{
-  color: var(--electric-blue);
-  margin:0;
 }
 
 :deep(.carousel .carousel_navigation)
