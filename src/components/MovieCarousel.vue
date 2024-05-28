@@ -67,7 +67,6 @@ export default defineComponent({
 :deep(.v-img .v-img__img)
 {
     position: initial;
-    cursor: pointer;
 }
 
 .carousel{

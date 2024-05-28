@@ -136,8 +136,8 @@ export default defineComponent({
       v => v.length > 10 || 'Username must be minimum 10 characters long'
     ],
     passwordRules: [v => !!v || 'Password is required',
-    v => v.length > 7 || 'Password must be minimum 8 characters long',
-    v => /^(?=.*?[$%^&*]).{8,}$/.test(v) || 'Password must contain at least 1 special character'],
+    v => v.length > 10 || 'Password must be minimum 10 characters long',
+    v => /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[$%^&*]).{10,}$/.test(v) || 'Password must contain at least 1 special character,1 upper and lowercase character and one special charcter.'],
     confirmPasswordRules() {
       return [
         v => v === this.form.password || 'Does not match password entered above'

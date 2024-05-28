@@ -32,6 +32,7 @@ export default {
 {
   box-shadow: 0px 0px 5px 5px #EEE8AA;
   max-height: inherit;
+  cursor: pointer;
 }
 
 

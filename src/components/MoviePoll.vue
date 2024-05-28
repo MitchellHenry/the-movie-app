@@ -1,36 +1,20 @@
 <template>
-  <div class="container" v-if="initalised">
+  <div class="m-5" v-if="initalised">
     <div class="p-3 p-md-3 glow-border mb-5">
       <div class="row">
         <div class="col-12">
-          <h1 class="text-electric-blue mb-3">{{ this.PollData.Question }}</h1>
+          <h4 class="text-electric-blue mb-3">{{ this.PollData.Question }}</h4>
         </div>
       </div>
       <div class="row">
         <v-radio-group v-model="movieVoted" inline>
-          <div class="col-4">
-            <MoviePoster class="ms-md-5" :movie="Movie1"></MoviePoster>
-            <v-radio :label="Movie1.original_title" @click="Voted(Movie1.id)" color="var(--electric-blue)" base-color="var(--electric-blue)"
-              class="ms-md-5 mt-1" :value="Movie1.id"></v-radio>
-            <v-progress-linear class="w-90 float-end" buffer-opacity="1" :buffer-value="percentages[0]" bg-color="var(--electric-blue)" height="25">
-              <strong class="linear-content">{{ percentages[0] }}%</strong>
+          <div v-for="option in pollOptions" v-bind:key="option.position" class="col-6 col-lg-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between">
+            <MoviePoster class="m-2" :movie="option.Movie"></MoviePoster>
+            <v-radio :label="option.Movie.original_title" @click="Voted($event, option.Movie.id)" color="var(--electric-blue)" base-color="var(--electric-blue)"
+              class="mt-1" :value="option.Movie.id"></v-radio>
+            <v-progress-linear class="w-90" buffer-opacity="1" :buffer-value="percentages[option.position]" bg-color="var(--electric-blue)" height="25">
+              <strong class="linear-content">{{ percentages[option.position] }}%</strong>
             </v-progress-linear>
-          </div>
-          <div class="col-4">
-            <MoviePoster class="ms-md-5" :movie="Movie2"></MoviePoster>
-            <v-radio :label="Movie2.original_title" @click="Voted(Movie2.id)" color="var(--electric-blue)" base-color="var(--electric-blue)"
-              class="ms-md-5 mt-1" :value="Movie2.id"></v-radio>
-              <v-progress-linear class="w-90 float-end" buffer-opacity="1" :buffer-value="percentages[1]" bg-color="var(--electric-blue)" height="25">
-            <strong  class="linear-content">{{ percentages[1] }}%</strong>
-          </v-progress-linear>
-          </div>
-          <div class="col-4">
-            <MoviePoster class="ms-md-5" :movie="Movie3"></MoviePoster>
-            <v-radio :label="Movie3.original_title" @click="Voted(Movie3.id)" color="var(--electric-blue)" base-color="var(--electric-blue)"
-              class="ms-md-5 mt-1" :value="Movie3.id"></v-radio>
-            <v-progress-linear class="w-90 float-end" buffer-opacity="1" :buffer-value="percentages[2]" bg-color="var(--electric-blue)" height="25">
-            <strong  class="linear-content">{{ percentages[2] }}%</strong>
-          </v-progress-linear>
           </div>
         </v-radio-group>
       </div>
@@ -50,10 +34,7 @@ export default defineComponent({
   name: 'MovieSearchView',
   props: ["PollData"],
   data: () => ({
-    Movie1: {},
-    Movie2: {},
-    Movie3: {},
-    answers: [],
+    pollOptions: [],
     movieVoted: null,
     initalised: false
   }),
@@ -63,25 +44,30 @@ export default defineComponent({
       votes = [];
     }
 
-    // Set the selected movie if the user has previously voted
+    // Set the selected movie if the user has previously vote
     if (Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')) {
       let priorVote = votes.filter(v => v.UserID == this.$root.$User.UserID);
       if (priorVote.length > 0) {
-        console.log(priorVote[0].VotedForMovieID);
-        this.movieVoted = priorVote[0].VotedForMovieID;
+        this.movieVoted = parseInt(priorVote[0].VotedForMovieID);
       }
     }
-
+    
     // Get movie details and set up the answers array
     this.Movie1 = await getMovieDetail(this.PollData.MovieID1);
-    this.answers.push({ MovieId: this.Movie1.id, text: this.Movie1.original_title, votes: votes.filter(v => v.VotedForMovieID == this.Movie1.id).length });
+    this.pollOptions.push({position: 0, Movie: this.Movie1, votes: votes.filter(v => v.VotedForMovieID == this.Movie1.id).length });
 
     this.Movie2 = await getMovieDetail(this.PollData.MovieID2);
-    this.answers.push({ MovieId: this.Movie2.id, text: this.Movie2.original_title, votes: votes.filter(v => v.VotedForMovieID == this.Movie2.id).length });
-
-    this.Movie3 = await getMovieDetail(this.PollData.MovieID3);
-    this.answers.push({ MovieId: this.Movie3.id, text: this.Movie3.original_title, votes: votes.filter(v => v.VotedForMovieID == this.Movie3.id).length });
-
+    this.pollOptions.push({position: 1,  Movie: this.Movie2, votes: votes.filter(v => v.VotedForMovieID == this.Movie2.id).length });
+    if(this.PollData.MovieID3 != null)
+    {
+      this.Movie3 = await getMovieDetail(this.PollData.MovieID3);
+      this.pollOptions.push({position: 2,  Movie: this.Movie3, votes: votes.filter(v => v.VotedForMovieID == this.Movie3.id).length });
+    }
+    if(this.PollData.MovieID4 != null)
+    {
+      this.Movie4 = await getMovieDetail(this.PollData.MovieID4);
+      this.pollOptions.push({position: 3,  Movie: this.Movie4, votes: votes.filter(v => v.VotedForMovieID == this.Movie4.id).length });
+    }
     this.initalised = true; 
   },
   components: {
@@ -89,38 +75,34 @@ export default defineComponent({
   },
   methods: {
     getPercentage(votes) {
-      const totalVotes = this.answers.reduce((acc, curr) => acc + curr.votes, 0);
+      const totalVotes = this.pollOptions.reduce((acc, curr) => acc + curr.votes, 0);
       if (totalVotes === 0) {
         return 0;
       }
       return (votes / totalVotes) * 100;
     },
-    async Voted(movieID) {
-      if (Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')) {
-        let newVote = {
-          PollID: this.PollData.PollID,
-          UserID: this.$root.$User.UserID,
-          VotedForMovieID: movieID
-        };
-        PostVote(newVote).then(async () => {
-          this.movieVoted = movieID;
-          let votes = await GetVotes(this.PollData.PollID);
-          this.answers[0].votes = votes.filter(v => v.VotedForMovieID == this.Movie1.id).length;
-          this.answers[1].votes = votes.filter(v => v.VotedForMovieID == this.Movie2.id).length;
-          this.answers[2].votes = votes.filter(v => v.VotedForMovieID == this.Movie3.id).length;
-        });
-      } else {
-        alert('Sign in to vote!');
+    async Voted(event, movieID) {
+      if (!Object.prototype.hasOwnProperty.call(this.$root.$User, 'Username')) {
+        event.preventDefault();
+        return alert('Sign In to vote!');
       }
-    },
-    async priorVote()
-    {
-
+      let newVote = {
+        PollID: this.PollData.PollID,
+        UserID: this.$root.$User.UserID,
+        VotedForMovieID: movieID
+      };
+      PostVote(newVote).then(async () => {
+        let votes = await GetVotes(this.PollData.PollID);
+        this.pollOptions.forEach(option =>
+        {
+          option.votes = votes.filter(v => v.VotedForMovieID == option.Movie.id).length;
+        })
+      });
     }
   },
   computed: {
     percentages() {
-      return this.answers.map(answer => this.getPercentage(answer.votes));
+      return this.pollOptions.map(option => this.getPercentage(option.votes).toFixed(2));
     }
   }
 });
@@ -143,6 +125,16 @@ export default defineComponent({
 .linear-content
 {
   color: #EEE8AA
+}
+
+@media only screen and (max-width: 800px) {
+  h4 {
+    font-size: 3vw;
+  }
+  :deep(.v-label--clickable)
+  {
+    font-size:2vw;
+  }
 }
 
 </style>
