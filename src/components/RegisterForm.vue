@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex flex-column align-items-center w-100">
     <div class="col-10">
-      <h1 class="text-electric-blue mb-3">Register!</h1>
-      <div class="p-3 border border-info glow-border">
+      <h1 v-electric-text class="mb-3">Register!</h1>
+      <div class="p-3 border border-info" v-glow-electric-border>
         <v-form fast-fail @submit.prevent>
 
           <div class="row">
@@ -37,15 +37,13 @@
           <v-text-field v-model="form.email" type="email" required :rules="emailRules" label="Email"
             bg-color="grey-darken-2" class="mb-2 mt-2"></v-text-field>
 
-          <v-btn class="mt-2 text-white" type="submit" @click="tryRegister" color="var(--electric-blue)"
-            block>Register</v-btn>
+          <v-btn class="mt-2 text-white" type="submit" @click="tryRegister" v-electric-bg block>Register</v-btn>
         </v-form>
         <P class="text-primary">{{ errorMessage }}</P>
       </div>
       <div class="d-flex align-items-center mt-4 mb-5">
-        <h4 class="text-electric-blue me-3">Already have an account?</h4>
-        <v-btn color="var(--electric-blue)" class="text-white"
-          @click="this.$router.push({ path: '/account/login' })">Sign in</v-btn>
+        <h4 v-electric-text class="me-3">Already have an account?</h4>
+        <v-btn v-electric-bg class="text-white" @click="this.$router.push({ path: '/account/login' })">Sign in</v-btn>
       </div>
     </div>
   </div>
@@ -61,9 +59,9 @@ export default defineComponent({
   name: 'RegisterForm',
   methods:
   {
+    //Try Register a user
     tryRegister: function () {
-      if(!this.form.valid)
-      {
+      if (!this.form.valid) {
         return;
       }
       let uniqueUsername = true;
@@ -93,6 +91,7 @@ export default defineComponent({
       }
     }
   },
+  //Watch form validation
   watch: {
     'form.username'(newValue) {
       this.form.valid = this.usernameRules.every(rule => rule(newValue));

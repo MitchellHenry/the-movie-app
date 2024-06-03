@@ -43,7 +43,6 @@ switch ($method) {
         break;
   case 'POST':
     // create a new vote
-    $columns = preg_replace('/[^a-z0-9_]+/i','',array_keys($input));
     $values = array_map(function ($value) use ($conn) {
       if ($value===null) return null;
       return mysqli_real_escape_string($conn,(string)$value);
@@ -56,7 +55,11 @@ switch ($method) {
     break;
   case 'DELETE':
     // delete a vote
-    $sql = "DELETE FROM `$table` WHERE PollID = '$input[PollID]' AND UserID = '$input[UserID]'";
+    if (isset($input['PollID']) && isset($input['UserID'])) {
+      $sql = "DELETE FROM `$table` WHERE PollID = '$input[PollID]' AND UserID = '$input[UserID]'";
+    } elseif (isset($input['PollID'])) {
+      $sql = "DELETE FROM `$table` WHERE PollID = '$input[PollID]'";
+    }
     break;
 }
 

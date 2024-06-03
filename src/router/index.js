@@ -7,6 +7,10 @@ import LoginComponent from '@/components/LoginForm.vue'
 import RegisterComponent from '@/components/RegisterForm.vue'
 import ProfileComponent from '@/components/ProfileDetails.vue'
 import PollsView from '@/views/PollsView.vue'
+import ManagePollsView from '@/views/ManagePollsView.vue'
+import CreatePoll from '@/components/CreatePoll.vue'
+import EditPoll from '@/components/EditPoll.vue'
+import DeletePoll from '@/components/DeletePoll.vue'
 
 const routes = [
   {
@@ -32,6 +36,9 @@ const routes = [
   {
     path: '/account',
     name: 'account',
+    redirect: () => {
+      return { path: '/account/login' };
+    },
     component: AccountView,
     children: [
         {
@@ -46,6 +53,29 @@ const routes = [
         {
             path: 'profile',
             component: ProfileComponent
+        }
+    ]
+  },
+  {
+    path: '/managepolls',
+    name: 'managepolls',
+    redirect: () => {
+      return { path: '/managepolls/create' };
+    },
+    component: ManagePollsView,
+    children: [
+        {
+            path: 'create',
+            component: CreatePoll
+        },
+        {
+            path: 'edit',
+            component: EditPoll
+        }
+        ,
+        {
+            path: 'delete',
+            component: DeletePoll
         }
     ]
   }

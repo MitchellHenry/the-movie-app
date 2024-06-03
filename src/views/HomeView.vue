@@ -1,6 +1,6 @@
 <template>
-  <MovieCarousel :moviePromise="getMovies('movie',1 , 1,'popular')" title="Popular movies" />
-  <MovieCarousel :moviePromise="getMovies('movie',2 , 1,'top_rated')" title="Top rated movies" />
+  <MovieCarousel :moviePromise="getMovies('movie', 1, 1, 'popular')" title="Popular movies" />
+  <MovieCarousel :moviePromise="getMovies('movie', 2, 1, 'top_rated')" title="Top rated movies" />
   <MovieCarousel :moviePromise="getMovies('discover', 3, 1, 'movie', 27)" title="Horror movies" />
   <MovieCarousel :moviePromise="getMovies('discover', 3, 1, 'movie', 53)" title="Thriller movies" />
   <MovieCarousel :moviePromise="getMovies('discover', 3, 1, 'movie', 35)" title="Comedy movies" />
@@ -19,7 +19,7 @@ export default defineComponent({
   components: {
     MovieCarousel,
   },
-  methods: { 
+  methods: {
     getMovies
   }
 });

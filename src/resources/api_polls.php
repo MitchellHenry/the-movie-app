@@ -48,16 +48,15 @@ switch ($method) {
       if ($value===null) return null;
       return mysqli_real_escape_string($conn,(string)$value);
     },array_values($input));
-    $sql = "INSERT INTO `$table` (Title, MovieID1, MovieID2, MovieID3) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO `$table` (" . implode(', ', $columns) . ") VALUES ('" . implode("', '", $values) . "')";
     break;
   case 'PUT':
     // update an existing poll
-    $columns = preg_replace('/[^a-z0-9_]+/i','',array_keys($input));
     $values = array_map(function ($value) use ($conn) {
-      if ($value===null) return null;
+      if ($value===null) return 'NULL';
       return mysqli_real_escape_string($conn,(string)$value);
     },array_values($input));
-    $sql = "UPDATE `$table` SET Title = ?, MovieID1 = ?, MovieID2 = ?, MovieID3 = ? WHERE `$fld` = '$key'";
+    $sql = "UPDATE `$table` SET Question = '" . $values[0] . "', MovieID1 = " . $values[1] . ", MovieID2 = " . $values[2] . ", MovieID3 = " . $values[3] . ", MovieID4 = " . $values[4] . " WHERE `$fld` = '$key'";
     break;
   case 'DELETE':
     // delete a poll

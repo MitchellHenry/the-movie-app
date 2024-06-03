@@ -1,19 +1,19 @@
 <template>
-  <div class="border-bottom">
-    <h2 class="text-electric-blue m-0" to="/">{{title}}</h2>
-      <Carousel v-bind="settings" :breakpoints="breakpoints" :wrap-around="true" :transition="300" :autoplay="5000" >
+  <div v-electric-border>
+    <h2 v-electric-text class="m-0" to="/">{{ title }}</h2>
+    <Carousel v-bind="settings" :breakpoints="breakpoints" :wrap-around="true" :transition="300" :autoplay="5000">
       <Slide class="pt-2 mt-4 pb-2 mb-4 pt-md-0 pb-md-0 mb-md-0 mt-md-0" v-for="movie in movies" :key="movie.id">
         <MoviePoster :movie="movie"></MoviePoster>
-    </Slide>
-     <template #addons>
-      <navigation>
-        <template #next>
-          <v-img class="carousel_navigation"  src="../assets/CarouselNavigation.png" :aspect-ratio=1></v-img>
-        </template>
-        <template #prev>
-          <v-img class="carousel_navigation" src="../assets/CarouselNavigation.png" :aspect-ratio=1></v-img>
-        </template>
-      </navigation>
+      </Slide>
+      <template #addons>
+        <navigation>
+          <template #next>
+            <v-img class="carousel_navigation" src="../assets/CarouselNavigation.png" :aspect-ratio=1></v-img>
+          </template>
+          <template #prev>
+            <v-img class="carousel_navigation" src="../assets/CarouselNavigation.png" :aspect-ratio=1></v-img>
+          </template>
+        </navigation>
       </template>
     </Carousel>
   </div>
@@ -31,9 +31,9 @@ import MoviePoster from './MoviePoster.vue';
 import 'vue3-carousel/dist/carousel.css'
 
 export default defineComponent({
-  props: ["moviePromise","title"],
+  props: ["moviePromise", "title"],
+  //Before create wait for the movie promise to finish
   beforeCreate() {
-    //wait for promise
     this.moviePromise.then(result => { this.movies = result })
   },
   name: 'MovieCarousel',
@@ -56,6 +56,9 @@ export default defineComponent({
       1024: {
         itemsToShow: 8
       },
+      700: {
+        itemsToShow: 5
+      }
     },
   })
 })
@@ -63,29 +66,20 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-:deep(.v-img .v-img__img)
-{
-    position: initial;
-}
-
-.carousel{
+.carousel {
   position: relative;
 }
 
-:deep(.carousel .carousel_navigation)
-{
-  box-shadow: 0px 0px 5px 5px var(--electric-blue);
-  border-radius: 40%!important;
+:deep(.carousel .carousel_navigation) {
+  box-shadow: 0px 0px 5px 5px #0096FF;
+  border-radius: 40% !important;
 }
 
-:deep(.carousel .carousel__prev)
-{
+:deep(.carousel .carousel__prev) {
   transform: rotate(180deg);
 }
 
-.carousel::v-deep() .carousel__viewport
-{
+.carousel::v-deep() .carousel__viewport {
   padding-top: 2%;
   padding-bottom: 2%;
 }
@@ -108,8 +102,7 @@ export default defineComponent({
   transition: 0.5s;
 }
 
-.carousel_link
-{
+.carousel_link {
   text-decoration: none;
   font-weight: bold;
   position: absolute;
@@ -118,12 +111,10 @@ export default defineComponent({
 }
 
 @media only screen and (max-width: 600px) {
-  .carousel_link
-  {
+  .carousel_link {
     position: initial;
     font-size: 3vw;
     margin: 1vw;
   }
 }
-
 </style>
