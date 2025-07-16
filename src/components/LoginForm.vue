@@ -13,7 +13,7 @@
 
           <v-btn class="mt-2 text-white" type="submit" @click="tryLogin" v-electric-bg block>Login</v-btn>
         </v-form>
-        <P class="text-electric-blue">{{ errorMessage }}</P>
+        <P v-electric-text>{{ errorMessage }}</P>
       </div>
       <div class="mb-5 pb-5">
         <v-btn class="mt-5 mb-5 text-white" @click="this.$router.push({ path: '/account/register' })" type="btn"

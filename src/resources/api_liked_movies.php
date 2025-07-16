@@ -19,7 +19,7 @@ $conn = mysqli_connect($host, $user, $pwd, $sql_db);
 mysqli_set_charset($conn,'utf8');
 
 // initialise the table name accordingly
-$table = "LikedMovies";
+$table = "MoviesLiked";
 
 // retrieve the search key field name and value from the path
 $fld = preg_replace('/[^a-z0-9_]+/i','',array_shift($request));

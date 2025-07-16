@@ -5,6 +5,7 @@ module.exports = defineConfig({
     vuetify: {
 			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
 		}
-  },
-  publicPath: "/cos30043/s102661522/the-movie-app/"
+  }
+  // ,
+  // publicPath: "/cos30043/s102661522/the-movie-app/"
 })

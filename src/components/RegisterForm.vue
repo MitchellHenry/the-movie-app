@@ -83,8 +83,11 @@ export default defineComponent({
           Email: this.form.email
         }
         PostRegister(newUser).then(() => {
-          this.$root.$User = newUser;
-          this.$router.push({ path: '/account/profile' });
+          GetUser(this.form.username).then(result => 
+          {
+             this.$root.$User = result;
+             this.$router.push({ path: '/account/profile' });
+          });
         }).catch(error => {
           this.errorMessage = 'There was an error!' + error;
         });

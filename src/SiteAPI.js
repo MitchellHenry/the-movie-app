@@ -1,7 +1,8 @@
 //This is the script that links to the API managed by this site
 export const SITE_API =
 {
-    PATH: "https://mercury.swin.edu.au/cos30043/s102661522/the-movie-app/resources/",
+    //PATH: "https://mercury.swin.edu.au/cos30043/s102661522/the-movie-app/resources/",
+    PATH: "http://192.168.0.183:8080/6.2%20D%20HD/the-movie-app/src/resources/",
     USER_PATH: "api_user.php/",
     LIKE_MOVIES_PATH: "api_liked_movies.php/",
     POLLS_PATH: "api_polls.php/",
